@@ -1,0 +1,689 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { 
+  AcademicCapIcon, 
+  BookOpenIcon, 
+  UserGroupIcon, 
+  ClockIcon,
+  ChartBarIcon,
+  LightBulbIcon,
+  CalendarIcon,
+  DocumentTextIcon,
+  VideoCameraIcon,
+  ChatBubbleLeftRightIcon
+} from '@heroicons/react/24/outline';
+import './App.css';
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <header className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'py-2 bg-white/80 dark:bg-dark/80 backdrop-blur-md shadow-md' : 'py-4'}`}>
+      <nav className="container mx-auto px-6 flex justify-between items-center">
+        <motion.a 
+          href="#" 
+          className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Harsha.
+        </motion.a>
+        <div className="hidden md:flex space-x-8">
+          {['Home', 'About', 'Projects', 'Experience', 'Contact'].map((item) => (
+            <a 
+              key={item} 
+              href={`#${item.toLowerCase()}`} 
+              className="text-dark dark:text-light hover:text-primary transition-colors duration-300 font-medium"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+        <button className="md:hidden">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+  );
+};
+
+const Hero = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent dark:from-primary/10 dark:to-transparent"></div>
+      </div>
+      
+      <div className="container mx-auto px-6 pt-24 md:pt-32">
+        <motion.div 
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+            Hi, I'm <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Harsha Vardhan Reddy</span>
+          </h1>
+          <h2 className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8">
+            Full Stack Developer & Problem Solver
+          </h2>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
+            I build exceptional digital experiences that make people's lives easier and more enjoyable through clean, efficient code and thoughtful design.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a 
+              href="#contact" 
+              className="btn btn-primary group"
+            >
+              Get In Touch
+              <EnvelopeIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a 
+              href="#projects" 
+              className="btn btn-outline group"
+            >
+              View My Work
+              <CodeBracketIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
+        </motion.div>
+      </div>
+      
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+          className="text-gray-500 dark:text-gray-400"
+        >
+          <svg className="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+          <span className="block text-sm mt-1">Scroll Down</span>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const About = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <section id="about" className="section">
+      <div className="container mx-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="grid md:grid-cols-2 gap-12 items-center"
+        >
+          <div>
+            <h2 className="text-4xl font-bold mb-6">About Me</h2>
+            <div className="space-y-4">
+              <p>
+                I'm a passionate Full Stack Developer with expertise in building modern web applications. 
+                With a strong foundation in both frontend and backend technologies, I create seamless 
+                user experiences that are both beautiful and functional.
+              </p>
+              <p>
+                My journey in software development started with a curiosity about how things work, which 
+                led me to pursue a career in technology. I'm constantly learning and staying up-to-date 
+                with the latest industry trends and best practices.
+              </p>
+              <p>
+                When I'm not coding, you can find me exploring new technologies, contributing to open-source 
+                projects, or enjoying outdoor activities to keep a healthy work-life balance.
+              </p>
+            </div>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Skills & Technologies</h3>
+              <div className="flex flex-wrap gap-3">
+                {['React', 'TypeScript', 'Node.js', 'Python', 'MongoDB', 'PostgreSQL', 'AWS', 'Docker', 'GraphQL', 'Next.js'].map((skill) => (
+                  <span key={skill} className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm font-medium">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="relative z-10 w-4/5 mx-auto">
+              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary to-secondary p-1">
+                <div className="h-full w-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+                  <img 
+                    src="https://via.placeholder.com/600x600" 
+                    alt="Profile" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="absolute -bottom-6 -right-6 w-1/2 h-1/2 bg-primary/10 rounded-2xl -z-10"></div>
+            <div className="absolute -top-6 -left-6 w-1/3 h-1/3 bg-secondary/10 rounded-2xl -z-10"></div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const Projects = () => {
+  const projects = [
+    {
+      title: 'E-commerce Platform',
+      description: 'A full-stack e-commerce platform with user authentication, product catalog, and payment integration.',
+      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      image: 'https://via.placeholder.com/600x400',
+      link: '#',
+      github: '#'
+    },
+    {
+      title: 'Task Management App',
+      description: 'A collaborative task management application with real-time updates and team collaboration features.',
+      technologies: ['Next.js', 'TypeScript', 'Firebase', 'Tailwind CSS'],
+      image: 'https://via.placeholder.com/600x400',
+      link: '#',
+      github: '#'
+    },
+    {
+      title: 'AI-Powered Chatbot',
+      description: 'An intelligent chatbot that helps users find information and complete tasks using natural language processing.',
+      technologies: ['Python', 'TensorFlow', 'React', 'WebSockets'],
+      image: 'https://via.placeholder.com/600x400',
+      link: '#',
+      github: '#'
+    },
+  ];
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <section id="projects" className="section bg-gray-50 dark:bg-gray-900/50">
+      <div className="container mx-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">My Projects</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Here are some of my recent projects that showcase my skills and experience.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.technologies.map((tech) => (
+                      <span key={tech} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs rounded">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-secondary flex items-center gap-1 text-sm font-medium"
+                    >
+                      Live Demo
+                      <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                    </a>
+                    <a 
+                      href={project.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-sm font-medium"
+                    >
+                      View Code
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const Experience = () => {
+  const experiences = [
+    {
+      role: 'Senior Frontend Developer',
+      company: 'TechCorp',
+      duration: '2022 - Present',
+      description: 'Leading the frontend development team and implementing modern web applications using React and TypeScript.',
+      technologies: ['React', 'TypeScript', 'Redux', 'GraphQL']
+    },
+    {
+      role: 'Full Stack Developer',
+      company: 'WebSolutions',
+      duration: '2020 - 2022',
+      description: 'Developed and maintained full-stack applications using MERN stack and implemented CI/CD pipelines.',
+      technologies: ['Node.js', 'Express', 'MongoDB', 'React', 'Docker']
+    },
+    {
+      role: 'Frontend Developer',
+      company: 'DigitalAgency',
+      duration: '2018 - 2020',
+      description: 'Created responsive and interactive user interfaces for various clients using modern frontend technologies.',
+      technologies: ['JavaScript', 'React', 'SASS', 'Webpack']
+    },
+  ];
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <section id="experience" className="section">
+      <div className="container mx-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Work Experience</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              My professional journey and the companies I've worked with.
+            </p>
+          </div>
+          
+          <div className="relative">
+            <div className="absolute left-8 md:left-1/2 h-full w-0.5 bg-gradient-to-b from-primary to-secondary -translate-x-1/2 hidden md:block"></div>
+            
+            {experiences.map((exp, index) => (
+              <motion.div
+                key={exp.role + exp.company}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={`mb-12 md:flex items-center justify-between ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+              >
+                <div className={`md:w-5/12 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
+                  <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                    <h3 className="text-xl font-bold text-primary">{exp.role}</h3>
+                    <p className="text-lg font-medium mb-2">{exp.company}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{exp.duration}</p>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">{exp.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {exp.technologies.map((tech) => (
+                        <span key={tech} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs rounded">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="hidden md:block w-2/12">
+                  <div className="flex items-center justify-center w-12 h-12 mx-auto bg-primary text-white rounded-full z-10 relative">
+                    <span className="text-lg font-bold">{index + 1}</span>
+                  </div>
+                </div>
+                <div className="md:w-5/12"></div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{success: boolean; message: string} | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate form submission
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setSubmitStatus({
+        success: true,
+        message: 'Your message has been sent successfully! I\'ll get back to you soon.'
+      });
+      
+      // Reset form
+      setFormData({ name: '', email: '', message: '' });
+    } catch {
+      setSubmitStatus({
+        success: false,
+        message: 'Something went wrong. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+      
+      // Clear status message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000);
+    }
+  };
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <section id="contact" className="section bg-gray-50 dark:bg-gray-900/50">
+      <div className="container mx-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              Have a project in mind or want to chat? Feel free to reach out!
+            </p>
+          </div>
+          
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+            <div className="grid md:grid-cols-2">
+              <div className="bg-gradient-to-br from-primary to-secondary p-8 text-white">
+                <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-white/20 p-2 rounded-lg">
+                      <EnvelopeIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Email</h4>
+                      <a href="mailto:your.email@example.com" className="text-white/80 hover:text-white transition-colors">
+                        your.email@example.com
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-white/20 p-2 rounded-lg">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Location</h4>
+                      <p className="text-white/80">San Francisco, CA</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="bg-white/20 p-2 rounded-lg">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Social</h4>
+                      <div className="flex space-x-4 mt-1">
+                        {[
+                          { name: 'GitHub', icon: 'github', url: '#' },
+                          { name: 'LinkedIn', icon: 'linkedin', url: '#' },
+                          { name: 'Twitter', icon: 'twitter', url: '#' },
+                        ].map((social) => (
+                          <a 
+                            key={social.name}
+                            href={social.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-white/80 hover:text-white transition-colors"
+                            aria-label={social.name}
+                          >
+                            <span className="sr-only">{social.name}</span>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                              <path d={`M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 22c-5.523 0-10-4.477-10-10S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.8-15.2h3.6v1.8h-3.6V6.8zm0 3.6h3.6v1.8h-3.6v-1.8zm0 3.6h3.6v1.8h-3.6v-1.8z`} />
+                            </svg>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <AnimatePresence>
+                    {submitStatus && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className={`p-4 rounded-lg ${
+                          submitStatus.success ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' 
+                          : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                        }`}
+                      >
+                        {submitStatus.message}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      required
+                    ></textarea>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className={`w-full btn btn-primary ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="bg-gray-900 text-white py-8">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="mb-4 md:mb-0">
+            <a href="#" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Harsha.
+            </a>
+            <p className="text-gray-400 mt-2">© {new Date().getFullYear()} Harsha Vardhan Reddy. All rights reserved.</p>
+          </div>
+          
+          <div className="flex space-x-6">
+            {['#', '#', '#', '#'].map((link, index) => (
+              <a 
+                key={index}
+                href={link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <span className="sr-only">Social Link {index + 1}</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 22c-5.523 0-10-4.477-10-10S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1.8-15.2h3.6v1.8h-3.6V6.8zm0 3.6h3.6v1.8h-3.6v-1.8zm0 3.6h3.6v1.8h-3.6v-1.8z" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+          <p>Designed & Built with ❤️ by Harsha Vardhan Reddy</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    // Check for dark mode preference
+    if (typeof window !== 'undefined') {
+      return localStorage.theme === 'dark' || 
+        (!('theme' in localStorage) && 
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    return false;
+  });
+
+  // Update dark mode class on state change
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  }, [darkMode]);
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Experience />
+        <Contact />
+      </main>
+      <Footer />
+      
+      {/* Dark mode toggle button */}
+      <button 
+        onClick={() => setDarkMode(!darkMode)}
+        className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 z-50"
+        aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {darkMode ? (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        ) : (
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        )}
+      </button>
+    </div>
+  );
+}
+
+export default App;
