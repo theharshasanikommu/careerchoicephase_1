@@ -194,20 +194,23 @@ export const Navbar = () => {
               ) : null}
 
               <div className="px-2 pt-2 pb-3 space-y-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`block px-3 py-2 rounded-md text-base font-medium ${
-                      location.pathname === link.path
-                        ? 'text-primary bg-primary/10'
-                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
-                    }`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+                {navLinks
+                  // hide AI Tools and Courses on small screens to reduce clutter
+                  .filter(link => !['AI Tools', 'Courses'].includes(link.name))
+                  .map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`block px-3 py-2 rounded-md text-base font-medium ${
+                        location.pathname === link.path
+                          ? 'text-primary bg-primary/10'
+                          : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
               </div>
 
               {isAuthenticated ? (
