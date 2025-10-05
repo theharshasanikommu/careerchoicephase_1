@@ -13,6 +13,9 @@ interface User {
   xp: number;
   streak?: number;
   badges?: string[];
+  bio?: string;
+  location?: string;
+  createdAt?: string;
 }
 
 interface AuthContextType {
@@ -22,6 +25,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  updateProfile: (data: { name?: string; bio?: string; location?: string; avatar?: string }) => Promise<void>;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
 }
@@ -106,6 +110,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const updateProfile = async (data: { name?: string; bio?: string; location?: string; avatar?: string }) => {
+    try {
+      const response = await authService.updateProfile(data);
+      // assume response contains updated user
+      const updatedUser = response.data || response;
+      updateUser(updatedUser);
+    } catch (err) {
+      console.error('Failed to update profile', err);
+      throw err;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -116,7 +132,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         register,
         logout,
-        updateUser
+        updateUser,
+        updateProfile
       }}
     >
       {children}
